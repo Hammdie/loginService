@@ -3,7 +3,7 @@ const jsm = new J({});
 
 jsm.loadConfig({
   spec_files: [
-    './src/*.[sS]pec.js'
+    './src/**/*.spec.js'
   ],
   helpers: [
     './src/test-helpers/**/*.js'
@@ -23,7 +23,7 @@ const reporter = new jasmineConsoleReporter({
     emoji: true,         // boolean or emoji-map object
     beep: true
 });
-
+jsm.DEFAULT_TIMEOUT_INTERVAL = 10000;
 // initialize and execute
 jsm.env.clearReporters();
 jsm.addReporter(reporter);
