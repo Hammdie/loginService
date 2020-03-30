@@ -1,5 +1,4 @@
 import * as app from './app';
-import {service} from './app';
 
 const moment = require('moment');
 
@@ -9,42 +8,58 @@ describe('test app', () => {
   const user = {
     admin: true,
     firstName: 'Dietmar',
-    secondName: 'Hamm',
+    lastName: 'Hamm',
     eMail: 'hamm@detalex.de',
     id: '1234567890'
   };
 
   beforeEach(() => {
-    app.onLogout();
+    app.init();
   })
 
-  it('initial state is logout', () => {
-    expect(app.service.state.value).toBe('logout');
+  it('initial state is idle', () => {
+    expect(app.loginService.state.value).toBe('idle');
   })
 
   it('proc login', () => {
     const session = {expire: moment().add(2, 's').unix()};
     app.onLogin({user, session}, 1000000);
-    expect(app.service.state.value).toBe('login');
-    expect(app.service.state.context.user).toBe(user);
+    expect(app.loginService.state.value).toBe('login');
+    expect(app.loginService.state.context.user).toBe(user);
     app.onLogout();
-    expect(app.service.state.value).toBe('logout');
+    expect(app.loginService.state.value).toBe('logout');
   });
 
   it('proc expiration and autologout', (done) => {
-    app.service.init({});
     const session = {expire: moment().add(2, 's').unix()};
+    app.loginService.init({});
+    app.loginService.subscribe((state) => {
+      if (state.value === 'login') {
+        expect(state.context).toEqual({user, session});
+      }
+      if (state.value === 'logout') {
+        expect(state.context).toEqual({user: undefined, session: undefined});
+      }
+    })
     app.onLogin({user, session}, 1000);
     setTimeout(() => {
-      expect(app.service.state.value).toBe('expiration');
+      expect(app.loginService.state.value).toBe('expiration');
     }, 1200);
     setTimeout(() => {
-      expect(app.service.state.value).toBe('logout');
-      expect(app.service.state.context).toEqual({ user: undefined, session: undefined });
+      expect(app.loginService.state.value).toBe('logout');
+      expect(app.loginService.state.context).toEqual({user: undefined, session: undefined});
       done();
     }, 2500);
-
   })
+
+  it('login with expired session', () => {
+    const session = {expire: moment().subtract(2, 'm').unix()};
+    app.loginService.init({});
+    expect(()=> {
+      app.onLogin({user, session}, 1000)
+    }).toThrow();
+  })
+
 
 })
 

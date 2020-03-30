@@ -1,16 +1,16 @@
 {
-  "name": "xstate-test",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "@diemtarh/login-service",
+  "version": "1.0.4",
+  "description": "loginService based on xState",
+  "main": "./dist/src/app.js",
+  "types": "./dist/src/app.d.ts",
   "scripts": {
     "test": "npm run build && cd dist && NODE_ENV=test node jasmine.js",
     "test-dev": "nodemon  -e ts,js --watch src --exec 'npm run build && cd dist && NODE_ENV=test node jasmine.js'",
     "build-dev": "tsc -w",
-    "build": "tsc",
-    "start": "node dist/app.js"
+    "build": "tsc"
   },
-  "author": "",
+  "author": "Dietmar Hamm",
   "license": "ISC",
   "dependencies": {
     "moment": "^2.24.0",

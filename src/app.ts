@@ -1,8 +1,12 @@
-import {assign, actions, Machine, interpret} from 'xstate';
-const moment = require('moment');
+import {assign, Machine, interpret} from 'xstate';
+
+import moment from 'moment';
 
 interface StateSchema {
   states: {
+    idle?: {
+      on?: {}
+    };
     login?: {
       on?: {}
     };
@@ -18,10 +22,9 @@ interface StateSchema {
 export interface IUser {
   admin: boolean;
   firstName: string;
-  secondName: string;
+  lastName: string;
   eMail: string;
   id: string;
-  imgStc?: string;
 }
 
 export interface ISession {
@@ -34,15 +37,22 @@ export interface ILoginContext {
 }
 
 export type LoginEvent =
-  | { type: 'LOGIN', context: ISession }
-  | { type: 'EXPIRATION' }
-  | { type: 'LOGOUT' }
+  | { type: 'LOGIN', loginContext: ILoginContext }
+  | { type: 'EXPIRATION', loginContext: ILoginContext }
+  | { type: 'LOGOUT', loginContext: ILoginContext }
 
-const loginMachine = Machine<any, any, any>({
+const loginMachine = Machine<ILoginContext, any, LoginEvent>({
     key: 'login',
-    initial: 'logout',
+    initial: 'idle',
     context: {},
     states: {
+      idle: {
+        on: {
+          LOGIN: {
+            target: 'login',
+          }
+        }
+      },
       login: {
         entry: [
           assign((context, event) => {
@@ -87,14 +97,14 @@ const loginMachine = Machine<any, any, any>({
   }
 )
 
-export const service = interpret(loginMachine).start();
+export let loginService;
 
 function calcExpirationTimeout(session: ISession): number {
   const difference = moment.duration(
     moment(session.expire * 1000).diff(moment()),
   );
   if (difference.asMilliseconds() < 0) {
-    throw 'Login try with expired session';
+    throw 'Login with expired session';
   }
   return difference.asMilliseconds();
 }
@@ -121,9 +131,15 @@ export function onLogin(loginContext: ILoginContext, expirationDelay: number = 3
   if (!loginContext.session) {
     throw 'wrong session';
   }
+  if (logoutTimeout) {
+    clearTimeout(logoutTimeout);
+  }
+  if (expirationTimeout) {
+    clearTimeout(expirationTimeout);
+  }
   expirationTimeout = createExpirationActivity(loginContext.session, expirationDelay);
   logoutTimeout = createExpiredActivity(loginContext.session);
-  service.send('LOGIN', {loginContext});
+  loginService.send('LOGIN', {loginContext});
 }
 
 export function onLogout() {
@@ -133,7 +149,7 @@ export function onLogout() {
   if (expirationTimeout) {
     clearTimeout(expirationTimeout);
   }
-  service.send('LOGOUT');
+  loginService.send('LOGOUT');
 
 }
 
@@ -141,8 +157,12 @@ export function onExpiration() {
   if (expirationTimeout) {
     clearTimeout(expirationTimeout);
   }
-  service.send('EXPIRATION');
+  loginService.send('EXPIRATION');
 }
 
+export function init() {
+  loginService = interpret(loginMachine).start();
+  return loginService;
+}
 
-
+init();
