@@ -1,6 +1,6 @@
 # Login Service
 
-
+Clientside processing of sso token handling.  Use this service to handle sso authentification based on jwt token.
 
 ![](var/imgs/states.jpeg)
 (https://xstate.js.org/viz/?gist=9a731b21f882ce56eb846be73355188d)
