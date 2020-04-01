@@ -2,23 +2,6 @@ import {assign, Machine, interpret} from 'xstate';
 
 import moment from 'moment';
 
-interface StateSchema {
-  states: {
-    idle?: {
-      on?: {}
-    };
-    login?: {
-      on?: {}
-    };
-    expiration?: {
-      on?: {}
-    };
-    logout?: {
-      on?: {}
-    };
-  };
-}
-
 export interface IUser {
   admin: boolean;
   firstName: string;
@@ -153,7 +136,7 @@ export function onLogout() {
 
 }
 
-export function onExpiration() {
+function onExpiration() {
   if (expirationTimeout) {
     clearTimeout(expirationTimeout);
   }
