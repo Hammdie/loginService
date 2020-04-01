@@ -58,4 +58,9 @@ interface IUser {
 }
 ```
 
+## Test it
+```
+npm test
+```
+Explore '**src/app.spec.ts**' for more understanding.  
 

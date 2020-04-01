@@ -10,6 +10,7 @@
     "build-dev": "tsc -w",
     "build": "tsc"
   },
+  "repository": "",
   "author": "Dietmar Hamm",
   "license": "ISC",
   "dependencies": {
