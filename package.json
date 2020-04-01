@@ -23,7 +23,8 @@
   "keywords": [
     "sso",
     "jwt",
-    "REACT"
+    "REACT",
+    "TypeScript"
   ],
   "devDependencies": {
     "@types/core-js": "^2.5.0",
