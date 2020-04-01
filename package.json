@@ -20,6 +20,11 @@
     "typescript": "^3.8.3",
     "xstate": "^4.8.0"
   },
+  "keywords": [
+    "sso",
+    "jwt",
+    "REACT"
+  ],
   "devDependencies": {
     "@types/core-js": "^2.5.0",
     "@types/es6-promise": "^3.3.0",
