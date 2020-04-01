@@ -8,7 +8,8 @@
     "test": "npm run build && cd dist && NODE_ENV=test node jasmine.js",
     "test-dev": "nodemon  -e ts,js --watch src --exec 'npm run build && cd dist && NODE_ENV=test node jasmine.js'",
     "build-dev": "tsc -w",
-    "build": "tsc"
+    "build": "tsc",
+    "publish": "npm version patch && npm publish"
   },
   "repository": "",
   "author": "Dietmar Hamm",
