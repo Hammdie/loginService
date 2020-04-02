@@ -25,5 +25,4 @@ export declare type LoginEvent = {
 export declare let loginService: any;
 export declare function onLogin(loginContext: ILoginContext, expirationDelay?: number): void;
 export declare function onLogout(): void;
-export declare function onExpiration(): void;
 export declare function init(): any;

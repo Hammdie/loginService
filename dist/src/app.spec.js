@@ -24,9 +24,9 @@ describe('test app', function () {
     it('initial state is idle', function () {
         expect(app.loginService.state.value).toBe('idle');
     });
-    it('proc login', function () {
-        var session = { expire: moment().add(2, 's').unix() };
-        app.onLogin({ user: user, session: session }, 1000000);
+    fit('proc login', function () {
+        var session = { expire: 1893456000 };
+        app.onLogin({ user: user, session: session });
         expect(app.loginService.state.value).toBe('login');
         expect(app.loginService.state.context.user).toBe(user);
         app.onLogout();

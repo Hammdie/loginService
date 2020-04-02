@@ -12,28 +12,39 @@ npm i @diemtarh/login-service
 
 ## Usage a.E. in React
 ```
-    import * as loginService from '@diemtarh/login-service';
+    var loginService = require("@diemtarh/login-service")
+    var moment = require("moment");
 
     loginService.loginService.subscribe(state => {
-      switch (state.value) {
-        case 'logout':
-          console.log('...handleLogout');
-          break;
-        case 'expiration':
-          console.log('...Show expiration message');
-          break;
-        default:
-      }
+          switch (state.value) {
+            case 'login':
+              console.log('...handleLogin');
+              console.log(state.context);
+              break;
+            case 'logout':
+              console.log('...handleLogout');
+              console.log(state.context);
+              break;
+            case 'expiration':
+              console.log('...Show expiration message');
+              console.log(state.context);
+              break;
+            default:
+          }
     });
-
-    const user = parseJWT(auth.token);
-    loginService.onLogin({ user, session: { expire: user.exp } });
-
-
-    ***
-
-    loginService.onLogout();
+    
+    const user = {
+      firstName: 'Dietmar',
+      lastName: 'Hamm',
+      eMail: 'diemtarh@gmail.com',
+      id: 1234666
+    }
+    //expire session after 5 sek.
+    const session = {expire: moment().add(5, 's').unix()}
+    loginService.onLogin({ user, session });
 ```
+try it here 
+https://runkit.com/hammdie/5e860b2ef924000013412ad0
 
 **Login** and **logout** transitions are wrapped as typed functions "onLogin" and "onLogout". 
 Handle "expiration" event to handle expiration-state. While expiration-state you can refresh your token and relogin with new expiration timestamp.  

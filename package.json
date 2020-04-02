@@ -1,7 +1,7 @@
 {
   "name": "@diemtarh/login-service",
   "version": "1.1.11",
-  "description": "loginService based on xState",
+  "description": "Clientside processing of sso token handling. Use this service to handle SSO authentification based on JWT token",
   "main": "./dist/src/app.js",
   "types": "./dist/src/app.d.ts",
   "scripts": {

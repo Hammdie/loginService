@@ -112,7 +112,6 @@ function onExpiration() {
     }
     exports.loginService.send('EXPIRATION');
 }
-exports.onExpiration = onExpiration;
 function init() {
     exports.loginService = xstate_1.interpret(loginMachine).start();
     return exports.loginService;
