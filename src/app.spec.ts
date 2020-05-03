@@ -4,7 +4,6 @@ const moment = require('moment');
 
 describe('test app', () => {
 
-  let service;
   const user = {
     admin: true,
     firstName: 'Dietmar',

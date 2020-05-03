@@ -15,6 +15,7 @@
   "author": "Dietmar Hamm",
   "license": "ISC",
   "dependencies": {
+    "@diemtarh/detalex-client-lib": "^1.0.5",
     "moment": "^2.24.0",
     "rxjs": "^6.2.1",
     "typescript": "^3.8.3",

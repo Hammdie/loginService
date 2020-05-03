@@ -10,7 +10,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var app = __importStar(require("./app"));
 var moment = require('moment');
 describe('test app', function () {
-    var service;
     var user = {
         admin: true,
         firstName: 'Dietmar',
@@ -24,9 +23,9 @@ describe('test app', function () {
     it('initial state is idle', function () {
         expect(app.loginService.state.value).toBe('idle');
     });
-    fit('proc login', function () {
-        var session = { expire: 1893456000 };
-        app.onLogin({ user: user, session: session });
+    it('proc login', function () {
+        var session = { expire: moment().add(2, 's').unix() };
+        app.onLogin({ user: user, session: session }, 1000000);
         expect(app.loginService.state.value).toBe('login');
         expect(app.loginService.state.context.user).toBe(user);
         app.onLogout();

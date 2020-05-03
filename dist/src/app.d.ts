@@ -1,13 +1,4 @@
-export interface IUser {
-    admin: boolean;
-    firstName: string;
-    lastName: string;
-    eMail: string;
-    id: string;
-}
-export interface ISession {
-    expire: number;
-}
+import { IUser, ISession } from '@diemtarh/detalex-client-lib';
 export interface ILoginContext {
     user?: IUser;
     session?: ISession;
