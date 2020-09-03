@@ -10,7 +10,7 @@ Clientside processing of sso token handling.  Use this service to handle SSO aut
 npm i @diemtarh/login-service
 ```
 
-## Usage a.E. in React
+## Usage
 ```
     var loginService = require("@diemtarh/login-service")
     var moment = require("moment");
